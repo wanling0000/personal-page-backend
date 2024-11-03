@@ -1,3 +1,4 @@
+
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -8,7 +9,7 @@ const rateLimit = require("express-rate-limit");
 
 const limiter = rateLimit({
 	windowMs: 30 * 60 * 1000, // 在30分钟内
-	max: 2, // 最多2个请求
+	max: 100, // 最多2个请求
 });
 
 var indexRouter = require("./routes/index");
@@ -19,15 +20,20 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+app.use(express.static(path.join(__dirname, "public/dist")));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(limiter);
 
-app.use("/", indexRouter);
+app.use("/api", indexRouter);
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "public/dist", "index.html"));
+});
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

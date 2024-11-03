@@ -19,8 +19,8 @@ router.post("/sendemail", (req, res) => {
 		port: 465,
 		secureConnection: true, // 使用SSL方式（安全方式，防止被窃取信息）
 		auth: {
-			user: 'fionafu35@gmail.com',
-			pass: 'bxkf oqbz rimo zkqq',
+			user: process.env.EMAIL_USER,
+			pass: process.env.EMAIL_PASS,
 		},
 	});
 

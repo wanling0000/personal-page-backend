@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+require('dotenv').config();
 /**
  * Module dependencies.
  */
@@ -82,10 +82,10 @@ function onError(error) {
  */
 
 function onListening() {
-  console.log('on: 127.0.0.1:7921');
   var addr = server.address();
   var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+      ? 'pipe ' + addr
+      : 'port ' + addr.port;
+  console.log(`Server is listening on ${bind}`);
   debug('Listening on ' + bind);
 }
