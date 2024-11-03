@@ -1,3 +1,4 @@
+# 运行sudo docker build -t personal-page-backend .
 # 使用 Node.js 作为基础镜像
 FROM node:18-alpine
 
@@ -11,6 +12,10 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm install
 
+
+# 设置 Node.js 内存限制为 4GB
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 # 复制代码到工作目录
 COPY . .
 
@@ -18,4 +23,4 @@ COPY . .
 EXPOSE 7921
 
 # 启动后端服务
-CMD ["node", "app.js"]  # 修改为你的入口文件名
+CMD ["node", "./bin/www" ]
